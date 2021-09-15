@@ -31,14 +31,65 @@ public interface IProdutoEndpoint {
     ResponseEntity<ProdutoResponseDto> insert(@Valid @RequestBody ProdutoPersistDto produtoPersistDto);
 
     @PatchMapping("/{id}")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "404",
+                    content = @Content(
+                            mediaType = "application/json",
+                            examples = @ExampleObject(
+                                    value = """
+                                            {
+                                                 "codigo": "X_100",
+                                                 "message": "Produto não encontrado com o id: 7",
+                                                 "urlDoc": null
+                                            }
+                                            """
+                            )
+                    )
+            )
+    })
     ResponseEntity<ProdutoResponseDto> update(@PathVariable("id") Long id, @RequestBody JsonPatch jsonPatch)
             throws ProdutoNotFound, JsonPatchException, JsonProcessingException;
 
     @PutMapping("/{id}")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "404",
+                    content = @Content(
+                            mediaType = "application/json",
+                            examples = @ExampleObject(
+                                    value = """
+                                            {
+                                                 "codigo": "X_100",
+                                                 "message": "Produto não encontrado com o id: 7",
+                                                 "urlDoc": null
+                                            }
+                                            """
+                            )
+                    )
+            )
+    })
     ResponseEntity<ProdutoResponseDto> update(@PathVariable("id") Long id, @RequestBody ProdutoPersistDto dto)
             throws ProdutoNotFound;
 
     @DeleteMapping("/{id}")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "404",
+                    content = @Content(
+                            mediaType = "application/json",
+                            examples = @ExampleObject(
+                                    value = """
+                                            {
+                                                 "codigo": "X_100",
+                                                 "message": "Produto não encontrado com o id: 7",
+                                                 "urlDoc": null
+                                            }
+                                            """
+                            )
+                    )
+            )
+    })
     void delete(@PathVariable("id") Long id) throws ProdutoNotFound;
 
     @Operation(summary = "Retorna o produto correspondente ao identificador informado")
