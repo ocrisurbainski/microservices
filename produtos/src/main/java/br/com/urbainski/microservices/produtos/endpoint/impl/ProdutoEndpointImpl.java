@@ -86,9 +86,7 @@ public class ProdutoEndpointImpl implements IProdutoEndpoint {
     @PutMapping("/{id}")
     public ResponseEntity<ProdutoResponseDto> update(Long id, ProdutoPersistDto dto) throws ProdutoNotFound {
 
-        var produto = produtoService.findByID(id).orElseThrow(() -> new ProdutoNotFound(id));
-
-        produto = produtoService.update(id, produto);
+        var produto = produtoService.update(id, dto);
 
         var produtoResponseDto = modelMapper.map(produto, ProdutoResponseDto.class);
 

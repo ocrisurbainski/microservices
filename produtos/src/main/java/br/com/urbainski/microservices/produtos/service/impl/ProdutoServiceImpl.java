@@ -2,6 +2,8 @@ package br.com.urbainski.microservices.produtos.service.impl;
 
 import java.util.Optional;
 
+import br.com.urbainski.microservices.produtos.dto.ProdutoPersistDto;
+import br.com.urbainski.microservices.produtos.exception.ProdutoNotFound;
 import org.springframework.stereotype.Service;
 
 import br.com.urbainski.microservices.produtos.model.Produto;
@@ -25,9 +27,12 @@ public class ProdutoServiceImpl implements ProdutoService {
     }
 
     @Override
-    public Produto update(Long id, Produto produto) {
+    public Produto update(Long id, ProdutoPersistDto dto) throws ProdutoNotFound {
 
+        var produto = findByID(id).orElseThrow(() -> new ProdutoNotFound(id));
         produto.setId(id);
+        produto.setDescricao(dto.getDescricao());
+        produto.setValor(dto.getValor());
 
         return save(produto);
     }
