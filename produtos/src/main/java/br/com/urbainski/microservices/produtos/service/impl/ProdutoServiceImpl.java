@@ -1,29 +1,36 @@
 package br.com.urbainski.microservices.produtos.service.impl;
 
-import java.util.Optional;
-
 import br.com.urbainski.microservices.produtos.dto.ProdutoPersistDto;
+import br.com.urbainski.microservices.produtos.event.ProdutoPersistEvent;
 import br.com.urbainski.microservices.produtos.exception.ProdutoNotFound;
-import org.springframework.stereotype.Service;
-
 import br.com.urbainski.microservices.produtos.model.Produto;
 import br.com.urbainski.microservices.produtos.repository.IProdutoRepository;
 import br.com.urbainski.microservices.produtos.service.ProdutoService;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class ProdutoServiceImpl implements ProdutoService {
 
     private final IProdutoRepository produtoRepository;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
-    public ProdutoServiceImpl(IProdutoRepository produtoRepository) {
+    public ProdutoServiceImpl(IProdutoRepository produtoRepository, ApplicationEventPublisher applicationEventPublisher) {
 
         this.produtoRepository = produtoRepository;
+        this.applicationEventPublisher = applicationEventPublisher;
     }
 
     @Override
     public Produto save(Produto produto) {
 
-        return produtoRepository.save(produto);
+        var produtoPersist = produtoRepository.save(produto);
+
+        applicationEventPublisher.publishEvent(new ProdutoPersistEvent(this, produtoPersist));
+
+        return produtoPersist;
     }
 
     @Override
