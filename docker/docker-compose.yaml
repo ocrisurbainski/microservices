@@ -1,0 +1,27 @@
+version: '3'
+services:
+  jms:
+    container_name: jms
+    image: vromero/activemq-artemis
+    restart: always
+    environment:
+      ARTEMIS_USERNAME: 'cristian.urbainski'
+      ARTEMIS_PASSWORD: 'SenhaArtemis@2021'
+    ports:
+      - 61616:61616
+      - 8161:8161
+    expose:
+      - 61616
+      - 8161
+
+  produtos:
+    container_name: produtos
+    image: crisurbainski/produtos:1.0.0-SNAPSHOT
+    environment:
+      JMS_HOST: jms
+    ports:
+      - 8081:8081
+    expose:
+      - 8081
+    depends_on:
+      - jms
