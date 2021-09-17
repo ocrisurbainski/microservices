@@ -2,6 +2,7 @@ package br.com.urbainski.microservices.produtos.endpoint.impl;
 
 import javax.validation.Valid;
 
+import br.com.urbainski.microservices.produtos.util.JsonUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -64,16 +65,11 @@ public class ProdutoEndpointImpl implements IProdutoEndpoint {
 
         var produto = produtoService.findByID(id).orElseThrow(() -> new ProdutoNotFound(id));
 
-        var objectMapper = new ObjectMapper()
-                .disable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS)
-                .enable(Feature.WRITE_BIGDECIMAL_AS_PLAIN)
-                .setNodeFactory(JsonNodeFactory.withExactBigDecimals(true));
-
-        var jsonProduto = objectMapper.convertValue(produto, JsonNode.class);
+        var jsonProduto = JsonUtils.convertValue(produto, JsonNode.class);
 
         jsonProduto = jsonPatch.apply(jsonProduto);
 
-        produto = objectMapper.treeToValue(jsonProduto, Produto.class);
+        produto = JsonUtils.treeToValue(jsonProduto, Produto.class);
 
         produto = produtoService.save(produto);
 
