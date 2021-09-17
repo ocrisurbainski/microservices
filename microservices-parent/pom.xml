@@ -20,6 +20,7 @@
         <spring.boot.version>2.3.4.RELEASE</spring.boot.version>
         <spring.cloud.version>Hoxton.SR10</spring.cloud.version>
         <modelmapper.version>2.4.2</modelmapper.version>
+        <jibmavenplugin.version>3.1.4</jibmavenplugin.version>
     </properties>
 	
 	<dependencyManagement>
@@ -58,6 +59,16 @@
                 </configuration>
             </plugin>
         </plugins>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>com.google.cloud.tools</groupId>
+                    <artifactId>jib-maven-plugin</artifactId>
+                    <version>${jibmavenplugin.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 
     <repositories>
