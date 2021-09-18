@@ -13,6 +13,7 @@
 	
 	<modules>
         <module>config</module>
+        <module>discovery</module>
         <module>produtos</module>
     </modules>
 </project>
