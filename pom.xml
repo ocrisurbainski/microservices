@@ -12,6 +12,7 @@
     <name>microservice</name>
 	
 	<modules>
+        <module>config</module>
         <module>produtos</module>
     </modules>
 </project>
