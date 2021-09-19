@@ -56,7 +56,6 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-bootstrap</artifactId>
-            <version>${spring.cloud.starter.bootstrap.version}</version>
         </dependency>
 
         <dependency>
