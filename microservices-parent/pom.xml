@@ -21,6 +21,7 @@
         <spring.cloud.version>3.0.4</spring.cloud.version>
         <spring.cloud.starter.bootstrap.version>3.0.3</spring.cloud.starter.bootstrap.version>
         <spring.cloud.starter.netflix.eureka.client.version>3.0.3</spring.cloud.starter.netflix.eureka.client.version>
+        <spring.cloud.starter.gateway.version>3.0.3</spring.cloud.starter.gateway.version>
         <modelmapper.version>2.4.2</modelmapper.version>
         <jibmavenplugin.version>3.1.4</jibmavenplugin.version>
         <postgresql.version>42.2.23</postgresql.version>
@@ -56,6 +57,11 @@
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
                 <version>${spring.cloud.starter.netflix.eureka.client.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-gateway</artifactId>
+                <version>${spring.cloud.starter.gateway.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.postgresql</groupId>
