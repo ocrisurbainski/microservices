@@ -33,7 +33,7 @@ import br.com.urbainski.microservices.produtos.model.Produto;
 import br.com.urbainski.microservices.produtos.service.ProdutoService;
 
 @RestController
-@RequestMapping("/produto")
+@RequestMapping("/")
 public class ProdutoEndpointImpl implements IProdutoEndpoint {
 
     private final ProdutoService produtoService;
