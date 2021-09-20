@@ -28,4 +28,34 @@
             <artifactId>spring-cloud-config-server</artifactId>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <configuration>
+                    <from>
+                        <image>openjdk:15-jdk-slim-buster</image>
+                    </from>
+                    <to>
+                        <image>crisurbainski/config:${version}</image>
+                    </to>
+                    <container>
+                        <mainClass>br.com.urbainski.microservices.config.ConfigRun</mainClass>
+                    </container>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
