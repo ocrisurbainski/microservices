@@ -23,6 +23,8 @@
         <spring.cloud.starter.netflix.eureka.server.version>3.0.3</spring.cloud.starter.netflix.eureka.server.version>
         <spring.cloud.starter.netflix.eureka.client.version>3.0.3</spring.cloud.starter.netflix.eureka.client.version>
         <spring.cloud.starter.gateway.version>3.0.3</spring.cloud.starter.gateway.version>
+        <spring.cloud.starter.sleuth.version>2.2.8.RELEASE</spring.cloud.starter.sleuth.version>
+        <spring.cloud.starter.zipkin.version>2.2.8.RELEASE</spring.cloud.starter.zipkin.version>
         <micrometer.registry.prometheus.version>1.7.4</micrometer.registry.prometheus.version>
         <modelmapper.version>2.4.2</modelmapper.version>
         <jibmavenplugin.version>3.1.4</jibmavenplugin.version>
@@ -69,6 +71,16 @@
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-gateway</artifactId>
                 <version>${spring.cloud.starter.gateway.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-sleuth</artifactId>
+                <version>${spring.cloud.starter.sleuth.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-zipkin</artifactId>
+                <version>${spring.cloud.starter.zipkin.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.micrometer</groupId>
