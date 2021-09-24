@@ -14,14 +14,155 @@ services:
       - 61616
       - 8161
 
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:latest
+    restart: unless-stopped
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    expose:
+      - 9090
+    ports:
+      - 9090:9090
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:latest
+    restart: unless-stopped
+    links:
+      - prometheus:prometheus
+    expose:
+      - 3000
+    ports:
+      - 3000:3000
+
+  trace:
+    container_name: trace
+    image: openzipkin/zipkin
+    restart: always
+    ports:
+      - 9411:9411
+    expose:
+      - 9411
+
+  logspout:
+    image: gliderlabs/logspout:v3
+    command: 'udp://logstash:5000'
+    links:
+      - logstash
+    volumes:
+      - '/var/run/docker.sock:/tmp/docker.sock'
+    depends_on:
+      - elasticsearch
+      - logstash
+      - kibana
+
+  logstash:
+    image: logstash:2.1.1
+    environment:
+      - STDOUT=true
+    links:
+      - elasticsearch
+    depends_on:
+      - elasticsearch
+      - kibana
+    command: 'logstash -e "input { udp { port => 5000 } } output { elasticsearch { hosts => elasticsearch } }"'
+
+  kibana:
+    image: kibana:4.1.2
+    links:
+      - elasticsearch
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+    ports:
+      - 5601:5601
+    depends_on:
+      - elasticsearch
+
+  elasticsearch:
+    image: elasticsearch:1.5.2
+    ports:
+      - 9200:9200
+      - 9300:9300
+
+  postgres:
+    container_name: postgres
+    image: postgres:13.4
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-q", "-d", "postgres", "-U", "root" ]
+      timeout: 45s
+      interval: 10s
+      retries: 10
+    restart: always
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=Postgres2021!
+      - APP_DB_USER=postgres
+      - APP_DB_PASS=Postgres2021!
+      - APP_DB_NAME=produtos
+    ports:
+      - 5434:5432
+    volumes:
+      - ./sql:/docker-entrypoint-initdb.d/
+
+  config:
+      container_name: config
+      image: crisurbainski/config:1.0.1-SNAPSHOT
+      ports:
+        - 8888:8888
+      expose:
+        - 8888
+
+  discovery:
+    container_name: discovery
+    image: crisurbainski/discovery:1.0.1-SNAPSHOT
+    environment:
+      CONFIG_SERVER_HOST: config
+      EUREKA_HOST: discovery
+      ZIPKIN_HOST: trace
+    ports:
+      - 8761:8761
+    expose:
+      - 8761
+    depends_on:
+      - config
+      - trace
+
+  gateway:
+    container_name: gateway
+    image: crisurbainski/gateway:1.0.1-SNAPSHOT
+    environment:
+      CONFIG_SERVER_HOST: config
+      EUREKA_HOST: discovery
+      ZIPKIN_HOST: trace
+    ports:
+      - 8000:8000
+    expose:
+      - 8000
+    depends_on:
+      - config
+      - discovery
+      - trace
+
   produtos:
     container_name: produtos
-    image: crisurbainski/produtos:1.0.0-SNAPSHOT
+    image: crisurbainski/produtos:1.0.1-SNAPSHOT
     environment:
+      CONFIG_SERVER_HOST: config
       JMS_HOST: jms
+      EUREKA_HOST: discovery
+      ZIPKIN_HOST: trace
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
     ports:
       - 8081:8081
     expose:
       - 8081
     depends_on:
       - jms
+      - postgres
+      - config
+      - discovery
+      - gateway
