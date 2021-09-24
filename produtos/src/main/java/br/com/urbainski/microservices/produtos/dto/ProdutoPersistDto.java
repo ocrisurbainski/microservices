@@ -1,10 +1,9 @@
 package br.com.urbainski.microservices.produtos.dto;
 
-import java.math.BigDecimal;
-
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 
 public class ProdutoPersistDto {
 
@@ -13,6 +12,7 @@ public class ProdutoPersistDto {
     @NotNull
     @DecimalMin(value = "0.01")
     private BigDecimal valor;
+    private boolean fgAtivo;
 
     @Deprecated
     public ProdutoPersistDto() {
@@ -39,13 +39,22 @@ public class ProdutoPersistDto {
         this.valor = valor;
     }
 
+    public boolean isFgAtivo() {
+
+        return fgAtivo;
+    }
+
+    public void setFgAtivo(boolean fgAtivo) {
+
+        this.fgAtivo = fgAtivo;
+    }
+
     @Override
     public String toString() {
-
         return "ProdutoPersistDto{" +
                 "descricao='" + descricao + '\'' +
                 ", valor=" + valor +
+                ", fgAtivo=" + fgAtivo +
                 '}';
     }
-
 }

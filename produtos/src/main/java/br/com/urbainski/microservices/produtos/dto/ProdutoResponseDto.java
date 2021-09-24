@@ -4,6 +4,7 @@ public class ProdutoResponseDto {
 
     private Long id;
     private String descricao;
+    private boolean fgAtivo;
 
     @Deprecated
     public ProdutoResponseDto() {
@@ -30,4 +31,13 @@ public class ProdutoResponseDto {
         this.descricao = descricao;
     }
 
+    public boolean isFgAtivo() {
+
+        return fgAtivo;
+    }
+
+    public void setFgAtivo(boolean fgAtivo) {
+
+        this.fgAtivo = fgAtivo;
+    }
 }

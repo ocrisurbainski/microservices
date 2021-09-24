@@ -40,6 +40,7 @@ public class ProdutoServiceImpl implements ProdutoService {
         produto.setId(id);
         produto.setDescricao(dto.getDescricao());
         produto.setValor(dto.getValor());
+        produto.setFgAtivo(dto.isFgAtivo());
 
         return save(produto);
     }

@@ -25,6 +25,8 @@ public class Produto implements Serializable {
     private String descricao;
     @Column(name = "VALOR", nullable = false, scale = 10, precision = 2)
     private BigDecimal valor;
+    @Column(name = "fg_ativo")
+    private boolean fgAtivo = true;
 
     @Deprecated
     public Produto() {
@@ -65,6 +67,14 @@ public class Produto implements Serializable {
     public void setValor(@NonNull BigDecimal valor) {
 
         this.valor = Objects.requireNonNull(valor, "valor não pode ser nulo");
+    }
+
+    public boolean isFgAtivo() {
+        return fgAtivo;
+    }
+
+    public void setFgAtivo(boolean fgAtivo) {
+        this.fgAtivo = fgAtivo;
     }
 
     @Override
