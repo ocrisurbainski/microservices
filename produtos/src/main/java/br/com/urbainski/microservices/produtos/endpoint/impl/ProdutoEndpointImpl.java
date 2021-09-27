@@ -6,7 +6,7 @@ import br.com.urbainski.microservices.produtos.endpoint.IProdutoEndpoint;
 import br.com.urbainski.microservices.produtos.exception.ProdutoNotFound;
 import br.com.urbainski.microservices.produtos.model.Produto;
 import br.com.urbainski.microservices.produtos.service.IProdutoService;
-import br.com.urbainski.microservices.produtos.util.JsonUtils;
+import br.com.urbainski.microservices.util.JsonUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonpatch.JsonPatch;

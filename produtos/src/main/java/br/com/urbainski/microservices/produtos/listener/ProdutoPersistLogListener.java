@@ -1,7 +1,7 @@
 package br.com.urbainski.microservices.produtos.listener;
 
 import br.com.urbainski.microservices.produtos.event.ProdutoPersistEvent;
-import br.com.urbainski.microservices.produtos.util.JsonUtils;
+import br.com.urbainski.microservices.util.JsonUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

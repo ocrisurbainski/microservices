@@ -16,5 +16,7 @@
         <module>discovery</module>
         <module>gateway</module>
         <module>produtos</module>
+        <module>queue-listeners</module>
+        <module>util</module>
     </modules>
 </project>
