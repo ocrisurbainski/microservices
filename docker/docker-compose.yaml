@@ -148,7 +148,7 @@ services:
 
   produtos:
     container_name: produtos
-    image: crisurbainski/produtos:1.0.1-SNAPSHOT
+    image: crisurbainski/produtos:1.0.2-SNAPSHOT
     environment:
       CONFIG_SERVER_HOST: config
       JMS_HOST: jms
