@@ -146,9 +146,27 @@ services:
       - discovery
       - trace
 
+  queue-listeners:
+    container_name: queue-listeners
+    image: crisurbainski/queue-listeners:1.0.1-SNAPSHOT
+    environment:
+      CONFIG_SERVER_HOST: config
+      JMS_HOST: jms
+      EUREKA_HOST: discovery
+      ZIPKIN_HOST: trace
+    ports:
+      - 8082:8082
+    expose:
+      - 8082
+    depends_on:
+      - jms
+      - config
+      - discovery
+      - gateway
+
   produtos:
     container_name: produtos
-    image: crisurbainski/produtos:1.0.2-SNAPSHOT
+    image: crisurbainski/produtos:1.0.3-SNAPSHOT
     environment:
       CONFIG_SERVER_HOST: config
       JMS_HOST: jms
