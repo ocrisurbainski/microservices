@@ -83,7 +83,7 @@
                         <image>crisurbainski/queue-listeners:${version}</image>
                     </to>
                     <container>
-                        <mainClass>br.com.urbainski.microservices.produtos.ProdutosApplication</mainClass>
+                        <mainClass>br.com.urbainski.microservices.queue.listeners.QueueListenersApplication</mainClass>
                     </container>
                 </configuration>
             </plugin>
