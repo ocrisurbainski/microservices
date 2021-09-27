@@ -1,0 +1,10 @@
+server:
+  port: 8082
+
+spring:
+  artemis:
+    mode: native
+    host: ${JMS_HOST:127.0.0.1}
+    port: ${JMS_PORT:61616}
+    user: ${JMS_USER:cristian.urbainski}
+    password: ${JMS_PASSWORD:SenhaArtemis@2021}
