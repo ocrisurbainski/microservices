@@ -5,8 +5,10 @@ import java.util.Optional;
 import br.com.urbainski.microservices.produtos.dto.ProdutoPersistDto;
 import br.com.urbainski.microservices.produtos.exception.ProdutoNotFound;
 import br.com.urbainski.microservices.produtos.model.Produto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-public interface ProdutoService {
+public interface IProdutoService {
 
     Produto save(Produto produto);
 
@@ -15,5 +17,7 @@ public interface ProdutoService {
     void delete(Produto produto);
 
     Optional<Produto> findByID(Long id);
+
+    Page<Produto> findAll(Pageable pageable);
 
 }

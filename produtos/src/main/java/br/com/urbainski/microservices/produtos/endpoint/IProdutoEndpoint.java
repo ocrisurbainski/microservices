@@ -1,29 +1,23 @@
 package br.com.urbainski.microservices.produtos.endpoint;
 
-import javax.validation.Valid;
-
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.github.fge.jsonpatch.JsonPatch;
-import com.github.fge.jsonpatch.JsonPatchException;
-
 import br.com.urbainski.microservices.produtos.dto.ProdutoPersistDto;
 import br.com.urbainski.microservices.produtos.dto.ProdutoResponseDto;
 import br.com.urbainski.microservices.produtos.exception.ProdutoNotFound;
-
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.github.fge.jsonpatch.JsonPatch;
+import com.github.fge.jsonpatch.JsonPatchException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 public interface IProdutoEndpoint {
 
@@ -112,4 +106,9 @@ public interface IProdutoEndpoint {
     })
     @GetMapping("/{id}")
     ResponseEntity<ProdutoResponseDto> findByID(@PathVariable("id") Long id) throws ProdutoNotFound;
+
+    @Operation(summary = "Retorna uma lista de produtos paginada, conforme os parâmetros fornecidos.")
+    @GetMapping
+    ResponseEntity<Page<ProdutoResponseDto>> findAll(@PageableDefault(page = 0, size = 20) Pageable pageable);
+
 }

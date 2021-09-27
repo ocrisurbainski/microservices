@@ -1,45 +1,37 @@
 package br.com.urbainski.microservices.produtos.endpoint.impl;
 
-import javax.validation.Valid;
-
-import br.com.urbainski.microservices.produtos.util.JsonUtils;
-import org.modelmapper.ModelMapper;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.fasterxml.jackson.core.JsonGenerator.Feature;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.github.fge.jsonpatch.JsonPatch;
-import com.github.fge.jsonpatch.JsonPatchException;
-
 import br.com.urbainski.microservices.produtos.dto.ProdutoPersistDto;
 import br.com.urbainski.microservices.produtos.dto.ProdutoResponseDto;
 import br.com.urbainski.microservices.produtos.endpoint.IProdutoEndpoint;
 import br.com.urbainski.microservices.produtos.exception.ProdutoNotFound;
 import br.com.urbainski.microservices.produtos.model.Produto;
-import br.com.urbainski.microservices.produtos.service.ProdutoService;
+import br.com.urbainski.microservices.produtos.service.IProdutoService;
+import br.com.urbainski.microservices.produtos.util.JsonUtils;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonpatch.JsonPatch;
+import com.github.fge.jsonpatch.JsonPatchException;
+import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/")
 public class ProdutoEndpointImpl implements IProdutoEndpoint {
 
-    private final ProdutoService produtoService;
+    private final IProdutoService produtoService;
     private final ModelMapper modelMapper;
 
-    public ProdutoEndpointImpl(ProdutoService produtoService, ModelMapper modelMapper) {
+    public ProdutoEndpointImpl(IProdutoService produtoService, ModelMapper modelMapper) {
 
         this.produtoService = produtoService;
         this.modelMapper = modelMapper;
@@ -108,4 +100,20 @@ public class ProdutoEndpointImpl implements IProdutoEndpoint {
 
         return ResponseEntity.ok(produtoResponseDto);
     }
+
+    @Override
+    @GetMapping
+    public ResponseEntity<Page<ProdutoResponseDto>> findAll(@PageableDefault(page = 0, size = 20) Pageable pageable) {
+
+        Page<Produto> page = produtoService.findAll(pageable);
+
+        List<ProdutoResponseDto> listProdutoResponse = page
+                .map(produto -> modelMapper.map(produto, ProdutoResponseDto.class))
+                .stream().collect(Collectors.toList());
+
+        Page<ProdutoResponseDto> pageResponse = new PageImpl<>(listProdutoResponse, pageable, page.getTotalElements());
+
+        return ResponseEntity.ok(pageResponse);
+    }
+
 }

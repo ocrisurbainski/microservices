@@ -5,14 +5,16 @@ import br.com.urbainski.microservices.produtos.event.ProdutoPersistEvent;
 import br.com.urbainski.microservices.produtos.exception.ProdutoNotFound;
 import br.com.urbainski.microservices.produtos.model.Produto;
 import br.com.urbainski.microservices.produtos.repository.IProdutoRepository;
-import br.com.urbainski.microservices.produtos.service.ProdutoService;
+import br.com.urbainski.microservices.produtos.service.IProdutoService;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-public class ProdutoServiceImpl implements ProdutoService {
+public class ProdutoServiceImpl implements IProdutoService {
 
     private final IProdutoRepository produtoRepository;
     private final ApplicationEventPublisher applicationEventPublisher;
@@ -55,6 +57,12 @@ public class ProdutoServiceImpl implements ProdutoService {
     public Optional<Produto> findByID(Long id) {
 
         return produtoRepository.findById(id);
+    }
+
+    @Override
+    public Page<Produto> findAll(Pageable pageable) {
+
+        return produtoRepository.findAll(pageable);
     }
 
 }
